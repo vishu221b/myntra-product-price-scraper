@@ -8,7 +8,7 @@ import math
 from .constants import (
     SYSTEM_INFORMATION, USER_AGENT_CLIENT,
     USER_AGENT_CLIENT_VERSION, BASE_URL,
-    DELIMITER )
+    DELIMITER)
 from prettytable import PrettyTable
 
 
