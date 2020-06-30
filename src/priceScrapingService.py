@@ -111,14 +111,14 @@ def fetch_products_and_details_from_url(**kwargs):
                     product.get('price'),
                     product.get('brand'),
                     BASE_URL + DELIMITER + product.get('landingPageUrl'),
-                    product.get('rating')
+                    round(product.get('rating'), 1)
                 ]
                 )
             print(pr_table, end="\n\n")
 
         elif user_input == '2':
-            print("\n[+] Exiting...")
+            print("[+] Exiting...")
             break
 
         else:
-            print("\n[-] Invalid Input detected, please enter a valid selection.\n")
+            print("[-] Invalid Input detected, please enter a valid selection.")
