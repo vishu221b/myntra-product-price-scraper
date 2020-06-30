@@ -12,9 +12,9 @@ while True:
     for key, endpoint in ALL_ENDPOINTS_MAP.items():
         empty_table.add_row([key, endpoint.name])
     print(empty_table)
-    print("Press C to exit....")
+    print("Press key 'E' or type 'Exit' to exit....")
     user_input = input("\n[+] Enter your selection (S.No.): ")
-    if user_input.upper() == "C":
+    if user_input.upper() == "E" or user_input.upper() == "EXIT":
         print("\n[+] Exiting....")
         break
     try:
