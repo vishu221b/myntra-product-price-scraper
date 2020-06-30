@@ -1,7 +1,6 @@
 """Created by Vishal Dogra on 30-06-2020"""
 
 import requests
-from bs4 import BeautifulSoup
 from .utils import construct_url
 import re
 import json
@@ -36,14 +35,19 @@ def get_json_data(content):
     c = re.findall(r"<script>window.__myx = (.+?)</script>", content.text)
     return c
 
+
 def fetch_products_and_details_from_url(**kwargs):
     pr_table = PrettyTable(
         [
-            'Name',
-            'Price(MRP)',
-            'Discount Price',
-            'Chargeable Price',
-            'Url']
+            'Product Name',
+            'Product Category',
+            'Product Original Price (MRP)',
+            'Product\'s Discount Price',
+            'Product\'s Chargeable Price',
+            'Brand',
+            'Buy link',
+            'Rating'
+        ]
     )
     complete_url = get_url(kwargs)
     content = get_response_from_url(complete_url)
@@ -63,13 +67,16 @@ def fetch_products_and_details_from_url(**kwargs):
     )
     total_pages_for_pagination = math.ceil(all_product_count/50)
     print(total_pages_for_pagination)
-    for page in total_pages_for_pagination:
     for product in all_products:
         pr_table.add_row([
-            product.get(
-                'productName'), product.get(
-                'mrp'), product.get(
-                'discount'), product.get(
-                'price'),  BASE_URL + DELIMITER + product.get('landingPageUrl')]
+            product.get('productName'),
+            product.get('category'),
+            product.get('mrp'),
+            product.get('discount'),
+            product.get('price'),
+            product.get('brand'),
+            BASE_URL + DELIMITER + product.get('landingPageUrl'),
+            product.get('rating')
+        ]
         )
     print(pr_table)
