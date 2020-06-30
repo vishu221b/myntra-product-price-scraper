@@ -36,47 +36,89 @@ def get_json_data(content):
     return c
 
 
-def fetch_products_and_details_from_url(**kwargs):
-    pr_table = PrettyTable(
-        [
-            'Product Name',
-            'Product Category',
-            'Product Original Price (MRP)',
-            'Product\'s Discount Price',
-            'Product\'s Chargeable Price',
-            'Brand',
-            'Buy link',
-            'Rating'
-        ]
-    )
-    complete_url = get_url(kwargs)
-    content = get_response_from_url(complete_url)
+def get_page_limit_for_pagination(url):
+    content = get_response_from_url(url)
     extracted_json = get_json_data(content)
-    print(len(extracted_json))
-    results = json.loads(
+    all_products_count = json.loads(
         extracted_json[0]).get(
         'searchData'
     ).get(
         'results'
-    )
-    all_products = results.get(
-        'products'
-    )
-    all_product_count = results.get(
+    ).get(
         'totalCount'
     )
-    total_pages_for_pagination = math.ceil(all_product_count/50)
-    print(total_pages_for_pagination)
-    for product in all_products:
-        pr_table.add_row([
-            product.get('productName'),
-            product.get('category'),
-            product.get('mrp'),
-            product.get('discount'),
-            product.get('price'),
-            product.get('brand'),
-            BASE_URL + DELIMITER + product.get('landingPageUrl'),
-            product.get('rating')
-        ]
+    total_pages_for_pagination = math.ceil(all_products_count / 50)
+    return total_pages_for_pagination
+
+
+def fetch_products_and_details_from_url(**kwargs):
+    complete_url = get_url(kwargs)
+    page_limit_for_pagination = get_page_limit_for_pagination(complete_url)
+    print("\n[+] Found {} pages with 50 products per page. What do you want to do?".format(
+        page_limit_for_pagination))
+    while True:
+        print("\n[+]" + ("-" * 50) + "\n")
+        print(
+            "[+] 1.\t{}\n[+] 2.\t{}".format(
+                "Parse products by page number",
+                "Exit")
         )
-    print(pr_table)
+        print("\n[+]" + ("-" * 50) + "\n")
+        user_input = input("[+] Enter your selection(1/2): ")
+        print("\n[+]" + ("-" * 50) + "\n")
+        if user_input == '1':
+            page_number = input("Enter the page number to list the products of (enter nothing for page 1): ")
+            print("\n[+]" + ("-" * 50))
+            try:
+                if not page_number:
+                    page_number = 1  # default set to the home page of the respective view
+                if int(page_number) == 0 or int(page_number) > page_limit_for_pagination:
+                    print("\n[-] Page number doesn't exist. Please check your input.")
+                    continue
+            except ValueError:
+                print("\n[-] Invalid input detected, please enter a valid page number.")
+                continue
+            pr_table = PrettyTable(
+                [
+                    'Product Name',
+                    'Product Category',
+                    'Product Original Price (MRP)',
+                    'Product\'s Discount Price',
+                    'Product\'s Chargeable Price',
+                    'Brand',
+                    'Buy link',
+                    'Rating'
+                ]
+            )
+            print("\n[+] PAGE Number -> {}".format(page_number))
+            content = get_response_from_url(complete_url + "?p={}".format(page_number))
+            extracted_json = get_json_data(content)
+            results = json.loads(
+                extracted_json[0]).get(
+                'searchData'
+            ).get(
+                'results'
+            )
+            all_products = results.get(
+                'products'
+            )
+            for product in all_products:
+                pr_table.add_row([
+                    product.get('productName'),
+                    product.get('category'),
+                    product.get('mrp'),
+                    product.get('discount'),
+                    product.get('price'),
+                    product.get('brand'),
+                    BASE_URL + DELIMITER + product.get('landingPageUrl'),
+                    product.get('rating')
+                ]
+                )
+            print(pr_table, end="\n\n")
+
+        elif user_input == '2':
+            print("\n[+] Exiting...")
+            break
+
+        else:
+            print("\n[-] Invalid Input detected, please enter a valid selection.\n")
