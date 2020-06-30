@@ -6,7 +6,11 @@ from .utils import construct_url
 import re
 import json
 import math
-from .constants import SYSTEM_INFORMATION,USER_AGENT_CLIENT,USER_AGENT_CLIENT_VERSION
+from .constants import (
+    SYSTEM_INFORMATION, USER_AGENT_CLIENT,
+    USER_AGENT_CLIENT_VERSION, BASE_URL,
+    DELIMITER )
+from prettytable import PrettyTable
 
 
 def get_url(kwargs):
@@ -32,13 +36,15 @@ def get_json_data(content):
     c = re.findall(r"<script>window.__myx = (.+?)</script>", content.text)
     return c
 
-
-def get_soup_obj(content):
-    soup = BeautifulSoup(content.content, "html.parser")
-    return soup
-
-
 def fetch_products_and_details_from_url(**kwargs):
+    pr_table = PrettyTable(
+        [
+            'Name',
+            'Price(MRP)',
+            'Discount Price',
+            'Chargeable Price',
+            'Url']
+    )
     complete_url = get_url(kwargs)
     content = get_response_from_url(complete_url)
     extracted_json = get_json_data(content)
@@ -56,8 +62,14 @@ def fetch_products_and_details_from_url(**kwargs):
         'totalCount'
     )
     total_pages_for_pagination = math.ceil(all_product_count/50)
-    soup = get_soup_obj(content)
-    element = soup.find("div", {'class': 'pagination-container'})
     print(total_pages_for_pagination)
+    for page in total_pages_for_pagination:
     for product in all_products:
-        print(product.get('productName'))
+        pr_table.add_row([
+            product.get(
+                'productName'), product.get(
+                'mrp'), product.get(
+                'discount'), product.get(
+                'price'),  BASE_URL + DELIMITER + product.get('landingPageUrl')]
+        )
+    print(pr_table)
