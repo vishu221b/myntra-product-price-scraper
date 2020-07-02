@@ -11,7 +11,8 @@ Dependencies for this project:
 <hr>
 A view is the 'URI(Unique resource identifier)' part of the website.
 <br><br>
-For example consider this link ```https://xyz.com/abc```
+
+For example consider the link ` https://xyz.com/abc`
 
 Now this link has 2 parts, **https://xyz.com** is the **URL(unique resource locator)**
 <br> while the **/abc** is the **URI(Unique Resource Identifier)** or **view** in this case.
