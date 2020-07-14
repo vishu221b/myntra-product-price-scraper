@@ -47,16 +47,24 @@ def get_page_limit_for_pagination(url):
     ).get(
         'totalCount'
     )
-    total_pages_for_pagination = math.ceil(all_products_count / 50)
+    total_pages_for_pagination = math.ceil(all_products_count / 50)  # since 50 products are displayed per page
     return total_pages_for_pagination
 
 
 def fetch_products_and_details_from_url(**kwargs):
     complete_url = get_url(kwargs)
     page_limit_for_pagination = get_page_limit_for_pagination(complete_url)
-    print("\n[+] Found {} pages with 50 products per page. What do you want to do?".format(
-        page_limit_for_pagination))
+    continue_already = False
+    if page_limit_for_pagination == 0 or page_limit_for_pagination < 0:
+        continue_already = True
+        print("\n[+] Found {} pages at the endpoint. Please try again.".format(
+            page_limit_for_pagination))
+    else:
+        print("\n[+] Found {} pages with 50 products per page at this endpoint. What do you want to do?".format(
+            page_limit_for_pagination))
     while True:
+        if continue_already:
+            break
         print("\n[+]" + ("-" * 50) + "\n")
         print(
             "[+] 1.\t{}\n[+] 2.\t{}".format(
