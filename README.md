@@ -4,6 +4,8 @@ A very simple web scraper project that scrapes **https://myntra.com** at differe
 to collect the product wise data located under that view.
 
 
+## Dependencies
+
 ```
 Dependencies for this project:
 
