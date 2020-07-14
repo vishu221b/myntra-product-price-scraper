@@ -47,7 +47,7 @@ def get_page_limit_for_pagination(url):
     ).get(
         'totalCount'
     )
-    total_pages_for_pagination = math.ceil(all_products_count / 50)
+    total_pages_for_pagination = math.ceil(all_products_count / 50)  # since 50 products are displayed per page
     return total_pages_for_pagination
 
 
