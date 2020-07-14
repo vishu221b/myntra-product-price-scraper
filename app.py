@@ -8,16 +8,18 @@ from prettytable import PrettyTable
 print("\n[+] Welcome to the Myntra Product Price Scraper.")
 while True:
     try:
-        print("[+] Choose one of the following views to proceed with: ")
-        empty_table = PrettyTable(['S.No.', 'Views'])
+        print("\n[+] Choose one of the following views to proceed with: ")
+        empty_table = PrettyTable(['S.No.', 'Options'])
 
         key_count = 0
         for key, endpoint in ALL_ENDPOINTS_MAP.items():
-            empty_table.add_row([key, endpoint.name])
+            entry = endpoint.name[0].upper() + endpoint.name[1:].lower()
+            empty_table.add_row([key, entry])
 
-        key_count = len(ALL_ENDPOINTS_MAP)
+        key_count = len(ALL_ENDPOINTS_MAP) + 1
 
-        empty_table.add_row([key_count, "Enter your own endpoint"])
+        empty_table.add_row(["-------", "-------------------------"])
+        empty_table.add_row([key_count, "Enter new endpoint"])
 
         print(empty_table)
 
