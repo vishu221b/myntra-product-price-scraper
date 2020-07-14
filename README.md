@@ -1,12 +1,27 @@
 # Myntra-Price-Scraper
+
 A very simple web scraper project that scrapes **https://myntra.com** at different views
 to collect the product wise data located under that view.
+
+
+## Dependencies
 
 ```
 Dependencies for this project:
 
 [+] requests - used for fetching data from websites
 [+] prettytable - used for displaying data in tabular format
+```
+
+## Basic setup
+
+```
+To set up the project locally, follow the below steps:
+
+1. Clone the repository locally (using git clone or zip download)
+2. Open terminal and cd into the project repository (where you have cloned/downloaded the repo)
+3. run command 'pip install -r requirements.txt', this will install the required dependencies
+4. run command python app.py
 ```
 <hr>
 A view is the 'URI(Unique resource identifier)' part of the website.
@@ -16,19 +31,18 @@ For example consider the link ` https://xyz.com/abc`
 
 Now this link has 2 parts, **https://xyz.com** is the **URL(unique resource locator)**
 <br> while the **/abc** is the **URI(Unique Resource Identifier)** or **view** in this case.
+
+- Users can select from the available views/endpoints available in the app already
+
+- Users enter their own view/endpoint in the app console itself to fetch
+products of that category.
+
+For details on how to setup endpoints inside app/code, refer to steps below.
+
 <hr>
 
-## Basic setup
-```
-To set up the project locally, follow the below steps:
 
-1. Clone the repository locally (using git clone or zip download)
-2. Open terminal and cd into the project repository (where you have cloned/downloaded the repo)
-3. run command 'pip install -r requirements.txt', this will install the required dependencies
-4. run command python app.py
-```
-
-## Adding Views
+## Adding Views to App
 ```
 For adding more views for myntra, following steps must be followed
 1. Create a constant in the 'constants.py' file
